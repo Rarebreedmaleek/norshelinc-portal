@@ -1,0 +1,38 @@
+You have done an excellent job so far. Now let's move on to building the **Parent Login Dashboard** for the Norshel web application.
+
+🎯 Objective:
+Create a secure, user-friendly, and interactive dashboard that displays essential information about each client to their respective parents after login.
+
+👁️ What the parent should see (per client):
+1. Client's image (displayed as a circular avatar or card-style profile)
+2. Client's full name
+3. Client's assigned Team (e.g., Team 1, Team 2, etc.)
+4. Current Day of the Week (e.g., Wednesday)
+5. Activities for that day:
+   - Morning Activity (e.g., Movies)
+   - Afternoon Activity (e.g., Bowling)
+6. Weekly Lunch Menu (Monday to Friday), possibly in a side section or collapsible panel
+
+📌 Example:
+- **Client's Name**: John Doe  
+- **Client's Team**: Team 2  
+- **Day of the Week**: Wednesday  
+- **Activities for Wednesday**:
+   - Morning: Movies  
+   - Afternoon: Bowling  
+- **Lunch Menu**:
+   - Monday: Rice & Beans  
+   - Tuesday: Pasta  
+   - Wednesday: Chicken Wrap  
+   - Thursday: Sandwich  
+   - Friday: Pizza
+
+💡 Design Instructions:
+- Use clean, card-based layout or grid to show client details.
+- Include a small sidebar or section for lunch menu.
+- Use Tailwind CSS for responsive and beautiful styling.
+- Highlight today’s day in the UI using color or badge.
+- The page must only be visible to **authenticated parents** using the login system.
+- Support multiple clients per parent account (if needed).
+
+Start by creating the `dashboard.html` (or route `/dashboard`) with secure backend access, and a clean frontend layout displaying the above data.

@@ -1,0 +1,23 @@
+You have done a perfect job. Now, let’s improve the **homepage** of this Norshel web application to make it more **user-friendly and visually engaging**.
+
+🎯 Objective:
+- Enhance the existing homepage by applying a more modern, accessible, and interactive layout.
+- Use a professional yet friendly **template or background**, suitable for an organization supporting adults with developmental and physical disabilities.
+- Maintain clean, readable typography and warm colors that reflect compassion and care.
+
+📌 Keep this content visible:
+- "Welcome to Norshel Inc."
+- "Supporting adults with physical and developmental disabilities since 1983"
+- "Who We Are" section with the list of disabilities supported.
+- Contact and navigation menu (Home, Programs, Individualized Programming, Sign Language, Contact, Login).
+
+✨ Design Improvements:
+- Add a subtle animated background or gradient (avoid distraction).
+- Include iconography (e.g., heart, support, diversity) near sections for better visual cues.
+- Use hover effects on navigation and interactive elements.
+- Make the layout responsive for mobile/tablet.
+- Optionally, add a "Learn More" button that scrolls to "Hours of Operation" or "Programs."
+
+Use **Tailwind CSS** for styling and responsiveness. You can also use **simple Python for any animations or interactivity** if needed.
+
+Start by redesigning the homepage (`index.html`) and the CSS styles.

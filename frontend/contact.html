@@ -1,0 +1,209 @@
+{% extends "base.html" %}
+
+{% block title %}Contact Us - Norshel Inc.{% endblock %}
+
+{% block content %}
+<!-- Custom Background for Contact Page -->
+<style>
+    .page-background {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        z-index: -1;
+        background-image: url('/static/background.jpg');
+        background-size: cover;
+        background-position: center;
+        background-repeat: no-repeat;
+        background-attachment: fixed;
+    }
+    
+    .page-background::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: rgba(255, 255, 255, 0.85);
+        backdrop-filter: blur(1px);
+    }
+    
+    .content-section {
+        background: rgba(255, 255, 255, 0.95);
+        backdrop-filter: blur(5px);
+        border-radius: 1rem;
+        box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+        border: 1px solid rgba(255, 255, 255, 0.2);
+        margin-bottom: 2rem;
+        padding: 2rem;
+    }
+</style>
+
+<!-- Background Image -->
+<div class="page-background"></div>
+<div class="max-w-4xl mx-auto">
+    <h1 class="text-4xl font-bold text-primary mb-8 text-center">Contact Us</h1>
+
+    <div class="grid md:grid-cols-2 gap-8">
+        <!-- Kernaghan Location -->
+        <div class="content-section bg-white rounded-lg shadow-md p-8">
+            <h2 class="text-2xl font-semibold text-primary mb-4">Kernaghan Location</h2>
+            <div class="prose max-w-none text-gray-700">
+                <div class="mb-6">
+                    <p class="font-semibold mb-2">Norshel Centre</p>
+                    <p>73-630 Kernaghan Avenue</p>
+                    <p>Winnipeg, Manitoba</p>
+                    <p>R2C 5G1</p>
+                    <p class="mt-2">
+                        <span class="font-semibold">Phone:</span> 
+                        <a href="tel:2046546117" class="text-primary hover:underline">(204) 654-6117</a>
+                    </p>
+                </div>
+
+                <div class="bg-gray-50 p-4 rounded-lg">
+                    <h3 class="font-semibold text-primary mb-2">Mailing Address</h3>
+                    <p>P.O. 4-630 Kernaghan Avenue</p>
+                    <p>Winnipeg, Manitoba</p>
+                    <p>R2C 5G1</p>
+                </div>
+
+                <div class="mt-6">
+                    <a href="https://maps.google.com/?q=73-630+Kernaghan+Avenue+Winnipeg+Manitoba+R2C+5G1" 
+                       target="_blank" 
+                       class="inline-block bg-primary text-white px-4 py-2 rounded-lg hover:bg-primary-dark transition-colors">
+                        Get Directions
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Scurfield Location -->
+        <div class="content-section bg-white rounded-lg shadow-md p-8">
+            <h2 class="text-2xl font-semibold text-primary mb-4">Scurfield Location</h2>
+            <div class="prose max-w-none text-gray-700">
+                <div class="mb-6">
+                    <p class="font-semibold mb-2">Norshel Centre</p>
+                    <p>20-5 Scurfield Blvd</p>
+                    <p>Winnipeg, Manitoba</p>
+                    <p>R3Y 1G3</p>
+                    <p class="mt-2">
+                        <span class="font-semibold">Phone:</span> 
+                        <a href="tel:2044529955" class="text-primary hover:underline">(204) 452-9955</a>
+                    </p>
+                </div>
+
+                <div class="mt-6">
+                    <a href="https://maps.google.com/?q=20-5+Scurfield+Blvd+Winnipeg+Manitoba+R3Y+1G3" 
+                       target="_blank" 
+                       class="inline-block bg-primary text-white px-4 py-2 rounded-lg hover:bg-primary-dark transition-colors">
+                        Get Directions
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Contact Form -->
+    <div class="content-section mt-12 bg-white rounded-lg shadow-md p-8">
+        <h2 class="text-2xl font-semibold text-primary mb-6">Send Us a Message</h2>
+        <form class="space-y-6">
+            <div class="grid md:grid-cols-2 gap-6">
+                <div>
+                    <label for="name" class="block text-gray-700 mb-2">Name</label>
+                    <input type="text" id="name" name="name" required
+                        class="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-primary">
+                </div>
+                <div>
+                    <label for="email" class="block text-gray-700 mb-2">Email</label>
+                    <input type="email" id="email" name="email" required
+                        class="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-primary">
+                </div>
+            </div>
+            <div>
+                <label for="subject" class="block text-gray-700 mb-2">Subject</label>
+                <input type="text" id="subject" name="subject" required
+                    class="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-primary">
+            </div>
+            <div>
+                <label for="message" class="block text-gray-700 mb-2">Message</label>
+                <textarea id="message" name="message" rows="4" required
+                    class="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-primary"></textarea>
+            </div>
+            <button type="submit" 
+                class="bg-primary text-white px-6 py-2 rounded-lg hover:bg-primary-dark transition-colors">
+                Send Message
+            </button>
+        </form>
+    </div>
+
+    <!-- Map -->
+    <div class="content-section mt-12 bg-white rounded-lg shadow-md p-8">
+        <h2 class="text-2xl font-semibold text-primary mb-6 text-center">📍 Find Us on the Map</h2>
+        <div class="grid md:grid-cols-2 gap-8 mb-6">
+            <!-- Kernaghan Location Map -->
+            <div>
+                <h3 class="text-lg font-semibold text-primary mb-4">Kernaghan Location</h3>
+                <div class="relative w-full" style="padding-top: 75%;">
+                    <iframe class="absolute inset-0 w-full h-full rounded-lg border-2 border-gray-200"
+                        src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2569.8!2d-97.1!3d49.9!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x52ea73c2b0b9b5d5%3A0x1!2s630%20Kernaghan%20Ave%2C%20Winnipeg%2C%20MB!5e0!3m2!1sen!2sca!4v1700000000000!5m2!1sen!2sca"
+                        allowfullscreen="" 
+                        loading="lazy"
+                        referrerpolicy="no-referrer-when-downgrade">
+                    </iframe>
+                </div>
+                <div class="mt-3 text-center">
+                    <a href="https://maps.google.com/?q=73-630+Kernaghan+Avenue+Winnipeg+Manitoba+R2C+5G1" 
+                       target="_blank" 
+                       class="inline-flex items-center text-primary hover:underline text-sm font-semibold">
+                        <span class="mr-1">🗺️</span>
+                        Open in Google Maps
+                    </a>
+                </div>
+            </div>
+
+            <!-- Scurfield Location Map -->
+            <div>
+                <h3 class="text-lg font-semibold text-primary mb-4">Scurfield Location</h3>
+                <div class="relative w-full" style="padding-top: 75%;">
+                    <iframe class="absolute inset-0 w-full h-full rounded-lg border-2 border-gray-200"
+                        src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2569.5!2d-97.2!3d49.8!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x52ea73c5b5b9b5d5%3A0x2!2s5%20Scurfield%20Blvd%2C%20Winnipeg%2C%20MB!5e0!3m2!1sen!2sca!4v1700000000001!5m2!1sen!2sca"
+                        allowfullscreen="" 
+                        loading="lazy"
+                        referrerpolicy="no-referrer-when-downgrade">
+                    </iframe>
+                </div>
+                <div class="mt-3 text-center">
+                    <a href="https://maps.google.com/?q=20-5+Scurfield+Blvd+Winnipeg+Manitoba+R3Y+1G3" 
+                       target="_blank" 
+                       class="inline-flex items-center text-primary hover:underline text-sm font-semibold">
+                        <span class="mr-1">🗺️</span>
+                        Open in Google Maps
+                    </a>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Alternative if maps don't load -->
+        <div class="bg-blue-50 p-4 rounded-lg text-center">
+            <p class="text-sm text-gray-700 mb-2">
+                <strong>Can't see the maps?</strong> Click the links above to open in Google Maps directly.
+            </p>
+            <div class="flex justify-center space-x-4">
+                <a href="https://maps.google.com/?q=73-630+Kernaghan+Avenue+Winnipeg+Manitoba+R2C+5G1" 
+                   target="_blank" 
+                   class="text-primary hover:underline font-semibold">
+                    📍 Kernaghan Location
+                </a>
+                <span class="text-gray-400">|</span>
+                <a href="https://maps.google.com/?q=20-5+Scurfield+Blvd+Winnipeg+Manitoba+R3Y+1G3" 
+                   target="_blank" 
+                   class="text-primary hover:underline font-semibold">
+                    📍 Scurfield Location
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %} 

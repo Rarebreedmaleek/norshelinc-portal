@@ -1,0 +1,345 @@
+{% extends "base.html" %}
+
+{% block title %}Programs - Norshel Inc.{% endblock %}
+
+{% block content %}
+<!-- Custom Background for Programs Page -->
+<style>
+    .page-background {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        z-index: -1;
+        background-image: url('/static/background.jpg');
+        background-size: cover;
+        background-position: center;
+        background-repeat: no-repeat;
+        background-attachment: fixed;
+    }
+    
+    .page-background::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: rgba(255, 255, 255, 0.85);
+        backdrop-filter: blur(1px);
+    }
+    
+    .content-section {
+        background: rgba(255, 255, 255, 0.95);
+        backdrop-filter: blur(5px);
+        border-radius: 1rem;
+        box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+        border: 1px solid rgba(255, 255, 255, 0.2);
+        margin-bottom: 2rem;
+        padding: 2rem;
+    }
+    
+    .hero-section {
+        background: rgba(0, 71, 171, 0.95);
+        backdrop-filter: blur(10px);
+        color: white;
+        border: 1px solid rgba(255, 255, 255, 0.2);
+    }
+    
+    .hero-section h1, .hero-section p {
+        color: white;
+        text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+    }
+</style>
+
+<!-- Background Image -->
+<div class="page-background"></div>
+<!-- Hero Section -->
+<div class="hero-section content-section rounded-xl p-8 mb-12">
+    <div class="text-center mb-8">
+        <h1 class="text-4xl md:text-5xl font-bold mb-4">Our Programs</h1>
+        <p class="text-xl md:text-2xl">
+            Comprehensive support programs tailored to individual needs
+        </p>
+    </div>
+</div>
+
+<!-- Vocational Day Program -->
+<div class="content-section bg-white rounded-xl shadow-lg p-8 mb-12 transform transition-all duration-300 hover:shadow-xl">
+    <div class="flex items-center mb-6">
+        <div class="bg-primary/10 p-3 rounded-full mr-4">
+            <svg class="w-8 h-8 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" 
+                    d="M21 13.255A23.931 23.931 0 0112 15c-3.183 0-6.22-.62-9-1.745M16 6V4a2 2 0 00-2-2h-4a2 2 0 00-2 2v2m4 6h.01M5 20h14a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/>
+            </svg>
+        </div>
+        <h2 class="text-3xl font-semibold text-primary">Vocational Day Program</h2>
+    </div>
+
+    <div class="prose max-w-none text-gray-700 mb-6">
+        <p class="mb-4">
+            Norshel undertakes various contracts that range from basic packaging to more complex tasks such as collating and assembly. Norshel prides itself in being able to offer a wide variety of different work skills. As well as learning work skills, individuals have an opportunity to enhance their social, decision-making, and communication skills.
+        </p>
+    </div>
+
+    <div class="grid md:grid-cols-2 gap-8 mb-8">
+        <div class="bg-blue-50 p-6 rounded-lg transition-transform duration-300 hover:scale-105">
+            <h3 class="font-semibold text-primary mb-4 flex items-center">
+                <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" 
+                        d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                </svg>
+                Skills Development
+            </h3>
+            <ul class="space-y-2">
+                <li class="flex items-center text-gray-700">
+                    <span class="w-2 h-2 bg-primary rounded-full mr-2"></span>
+                    Vocational skills
+                </li>
+                <li class="flex items-center text-gray-700">
+                    <span class="w-2 h-2 bg-primary rounded-full mr-2"></span>
+                    Pro-social behaviour
+                </li>
+                <li class="flex items-center text-gray-700">
+                    <span class="w-2 h-2 bg-primary rounded-full mr-2"></span>
+                    Decision-making skills
+                </li>
+                <li class="flex items-center text-gray-700">
+                    <span class="w-2 h-2 bg-primary rounded-full mr-2"></span>
+                    Communication skills
+                </li>
+            </ul>
+        </div>
+
+        <div class="bg-blue-50 p-6 rounded-lg transition-transform duration-300 hover:scale-105">
+            <h3 class="font-semibold text-primary mb-4 flex items-center">
+                <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" 
+                        d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/>
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" 
+                        d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"/>
+                </svg>
+                Off-site Opportunities
+            </h3>
+            <ul class="space-y-2">
+                <li class="flex items-center text-gray-700">
+                    <span class="w-2 h-2 bg-primary rounded-full mr-2"></span>
+                    Winnipeg Harvest
+                </li>
+                <li class="flex items-center text-gray-700">
+                    <span class="w-2 h-2 bg-primary rounded-full mr-2"></span>
+                    Concordia Hospital
+                </li>
+                <li class="flex items-center text-gray-700">
+                    <span class="w-2 h-2 bg-primary rounded-full mr-2"></span>
+                    Victoria Hospital
+                </li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+<!-- Recreational Program -->
+<div class="content-section bg-white rounded-xl shadow-lg p-8 mb-12 transform transition-all duration-300 hover:shadow-xl">
+    <div class="flex items-center mb-6">
+        <div class="bg-primary/10 p-3 rounded-full mr-4">
+            <svg class="w-8 h-8 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" 
+                    d="M14.828 14.828a4 4 0 01-5.656 0M9 10h.01M15 10h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
+            </svg>
+        </div>
+        <h2 class="text-3xl font-semibold text-primary">Recreational Program</h2>
+    </div>
+
+    <p class="text-gray-700 mb-8">
+        Norshel Centre's recreation program offers individualized recreation/leisure options within the community. The program provides continuous support and attempts to teach or improve pro-social behaviour, decision-making skills, communication skills, and leisure action planning skills.
+    </p>
+
+    <div class="grid md:grid-cols-3 gap-6">
+        <div class="bg-blue-50 p-6 rounded-lg transition-transform duration-300 hover:scale-105">
+            <h3 class="font-semibold text-primary mb-4 flex items-center">
+                <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" 
+                        d="M13 10V3L4 14h7v7l9-11h-7z"/>
+                </svg>
+                Sports & Fitness
+            </h3>
+            <ul class="space-y-2">
+                <li class="flex items-center text-gray-700">
+                    <span class="w-2 h-2 bg-primary rounded-full mr-2"></span>
+                    Archery
+                </li>
+                <li class="flex items-center text-gray-700">
+                    <span class="w-2 h-2 bg-primary rounded-full mr-2"></span>
+                    Bowling
+                </li>
+                <li class="flex items-center text-gray-700">
+                    <span class="w-2 h-2 bg-primary rounded-full mr-2"></span>
+                    Swimming
+                </li>
+                <li class="flex items-center text-gray-700">
+                    <span class="w-2 h-2 bg-primary rounded-full mr-2"></span>
+                    Yoga
+                </li>
+                <li class="flex items-center text-gray-700">
+                    <span class="w-2 h-2 bg-primary rounded-full mr-2"></span>
+                    Zumba
+                </li>
+            </ul>
+        </div>
+
+        <div class="bg-blue-50 p-6 rounded-lg transition-transform duration-300 hover:scale-105">
+            <h3 class="font-semibold text-primary mb-4 flex items-center">
+                <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" 
+                        d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"/>
+                </svg>
+                Outdoor Activities
+            </h3>
+            <ul class="space-y-2">
+                <li class="flex items-center text-gray-700">
+                    <span class="w-2 h-2 bg-primary rounded-full mr-2"></span>
+                    Fishing
+                </li>
+                <li class="flex items-center text-gray-700">
+                    <span class="w-2 h-2 bg-primary rounded-full mr-2"></span>
+                    Go Karting
+                </li>
+                <li class="flex items-center text-gray-700">
+                    <span class="w-2 h-2 bg-primary rounded-full mr-2"></span>
+                    Mini Golfing
+                </li>
+                <li class="flex items-center text-gray-700">
+                    <span class="w-2 h-2 bg-primary rounded-full mr-2"></span>
+                    Sledding
+                </li>
+                <li class="flex items-center text-gray-700">
+                    <span class="w-2 h-2 bg-primary rounded-full mr-2"></span>
+                    Water Parks
+                </li>
+            </ul>
+        </div>
+
+        <div class="bg-blue-50 p-6 rounded-lg transition-transform duration-300 hover:scale-105">
+            <h3 class="font-semibold text-primary mb-4 flex items-center">
+                <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" 
+                        d="M7 21a4 4 0 01-4-4V5a2 2 0 012-2h4a2 2 0 012 2v12a4 4 0 01-4 4zm0 0h12a2 2 0 002-2v-4a2 2 0 00-2-2h-2.343M11 7.343l1.657-1.657a2 2 0 012.828 0l2.829 2.829a2 2 0 010 2.828l-8.486 8.485M7 17h.01"/>
+                </svg>
+                Cultural Activities
+            </h3>
+            <ul class="space-y-2">
+                <li class="flex items-center text-gray-700">
+                    <span class="w-2 h-2 bg-primary rounded-full mr-2"></span>
+                    Movies
+                </li>
+                <li class="flex items-center text-gray-700">
+                    <span class="w-2 h-2 bg-primary rounded-full mr-2"></span>
+                    Museums
+                </li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+<!-- Summer Programs -->
+<div class="bg-white rounded-xl shadow-lg p-8 mb-12 transform transition-all duration-300 hover:shadow-xl">
+    <div class="flex items-center mb-6">
+        <div class="bg-primary/10 p-3 rounded-full mr-4">
+            <svg class="w-8 h-8 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" 
+                    d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"/>
+            </svg>
+        </div>
+        <h2 class="text-3xl font-semibold text-primary">Summer Programs</h2>
+    </div>
+
+    <div class="prose max-w-none text-gray-700 mb-8">
+        <p>
+            Norshel's summer program offers daytime support to non-graduating students. The program includes a combination of recreational and vocational activities.
+        </p>
+    </div>
+
+    <div class="grid md:grid-cols-2 gap-8">
+        <div class="bg-blue-50 p-6 rounded-lg transition-transform duration-300 hover:scale-105">
+            <h3 class="font-semibold text-primary mb-4">Program Details</h3>
+            <ul class="space-y-2">
+                <li class="flex items-center text-gray-700">
+                    <span class="w-2 h-2 bg-primary rounded-full mr-2"></span>
+                    Two separate three-week blocks (July and August)
+                </li>
+                <li class="flex items-center text-gray-700">
+                    <span class="w-2 h-2 bg-primary rounded-full mr-2"></span>
+                    Combined recreational/vocational activities
+                </li>
+                <li class="flex items-center text-gray-700">
+                    <span class="w-2 h-2 bg-primary rounded-full mr-2"></span>
+                    Relationship building with postgraduate programs
+                </li>
+                <li class="flex items-center text-gray-700">
+                    <span class="w-2 h-2 bg-primary rounded-full mr-2"></span>
+                    Safe transportation with qualified drivers
+                </li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+<!-- Work Experience Program -->
+<div class="content-section bg-white rounded-xl shadow-lg p-8">
+    <div class="flex items-center mb-6">
+        <div class="bg-primary/10 p-3 rounded-full mr-4">
+            <svg class="w-8 h-8 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" 
+                    d="M21 13.255A23.931 23.931 0 0112 15c-3.183 0-6.22-.62-9-1.745M16 6V4a2 2 0 00-2-2h-4a2 2 0 00-2 2v2m4 6h.01M5 20h14a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/>
+            </svg>
+        </div>
+        <h2 class="text-3xl font-semibold text-primary">Work Experience Program</h2>
+    </div>
+
+    <div class="prose max-w-none text-gray-700 mb-8">
+        <p>
+            Norshel Centre provides work experience for high school students from September to June. This enables students to get a feel for what life will be like in the working world upon graduation. Students are given exposure to different jobs that Norshel provides for more informed career decisions.
+        </p>
+    </div>
+
+    <div class="grid md:grid-cols-2 gap-8">
+        <div class="bg-blue-50 p-6 rounded-lg transition-transform duration-300 hover:scale-105">
+            <h3 class="font-semibold text-primary mb-4">Program Details</h3>
+            <ul class="space-y-2">
+                <li class="flex items-center text-gray-700">
+                    <span class="w-2 h-2 bg-primary rounded-full mr-2"></span>
+                    Available September to June
+                </li>
+                <li class="flex items-center text-gray-700">
+                    <span class="w-2 h-2 bg-primary rounded-full mr-2"></span>
+                    Support staff required
+                </li>
+                <li class="flex items-center text-gray-700">
+                    <span class="w-2 h-2 bg-primary rounded-full mr-2"></span>
+                    Flexible days and hours
+                </li>
+                <li class="flex items-center text-gray-700">
+                    <span class="w-2 h-2 bg-primary rounded-full mr-2"></span>
+                    Booking starts in September
+                </li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+<style>
+    .animate-fade-in {
+        animation: fadeIn 0.8s ease-out;
+    }
+    .animate-fade-in-delay {
+        animation: fadeIn 0.8s ease-out 0.3s forwards;
+        opacity: 0;
+    }
+    @keyframes fadeIn {
+        from { opacity: 0; transform: translateY(10px); }
+        to { opacity: 1; transform: translateY(0); }
+    }
+</style>
+{% endblock %} 

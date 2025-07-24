@@ -1,0 +1,63 @@
+I am building a secure web application in Python (using FastAPI) to support my company Norshel, an organization that helps adults with physical and developmental disabilities.
+
+Generate the full starter code and project structure for this app, using FastAPI for the backend, HTML + Tailwind CSS for the frontend, and host on this my windows Machine.
+
+**App Features:**
+
+1. Secure Login System:
+   - Only parents can log in to view private dashboards.
+   - Use JWT-based authentication.
+   - Unauthenticated users see only the landing page (public).
+
+2. Dashboard (for logged-in parents only):
+   - Display a weekly schedule (Monday to Friday) showing:
+     - Teams (Team 1–5), staff names, and assigned activities.
+     - Clients assigned to teams, their names, and daily activities.
+   - This information should come from a structured backend (DB or mock data).
+
+3. Sign Language Page:
+   - A public page that shows an embedded video of a lady demonstrating sign language A-Z.
+
+4. Frontend:
+   - Create simple, responsive HTML pages using Tailwind CSS.
+   - Pages:
+     - index.html → Landing page with company info
+     - login.html → Login form
+     - dashboard.html → Secure dashboard (only accessible after login)
+     - video.html → Sign language video
+
+5. Backend API endpoints:
+   - `/login` – Parent login with JWT response
+   - `/dashboard` – Return JSON of schedule and team data (secured)
+   - `/clients` – Return list of clients and their team assignments (secured)
+
+6. Folder structure:
+    norshel_app/
+    │
+    ├── backend/
+    │ ├── main.py
+    │ ├── models.py
+    │ ├── auth.py
+    │ ├── database.py
+    │
+    ├── frontend/
+    │ ├── index.html
+    │ ├── login.html
+    │ ├── dashboard.html
+    │ ├── video.html
+    │ └── styles/
+    │
+    ├── static/
+    │ └── sign_language.mp4
+    │
+    ├── .env
+    └── requirements.txt
+
+
+Please generate:
+- The initial backend code with working FastAPI endpoints.
+- JWT-based auth with simple user role check.
+- Tailwind-styled HTML templates with navigation and sample layout.
+- Mock data for staff, teams, and clients to test the dashboard.
+
+Make sure the code is clean, modular, and ready for me to deploy on this my window machine, and provide me with a LINK to test my website

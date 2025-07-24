@@ -1,0 +1,188 @@
+{% extends "base.html" %}
+
+{% block title %}Sign Language - Norshel Inc.{% endblock %}
+
+{% block content %}
+<!-- Custom Background for Sign Language Page -->
+<style>
+    .page-background {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        z-index: -1;
+        background-image: url('/static/background.jpg');
+        background-size: cover;
+        background-position: center;
+        background-repeat: no-repeat;
+        background-attachment: fixed;
+    }
+    
+    .page-background::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: rgba(255, 255, 255, 0.85);
+        backdrop-filter: blur(1px);
+    }
+    
+    .content-section {
+        background: rgba(255, 255, 255, 0.95);
+        backdrop-filter: blur(5px);
+        border-radius: 1rem;
+        box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+        border: 1px solid rgba(255, 255, 255, 0.2);
+        margin-bottom: 2rem;
+        padding: 2rem;
+    }
+    
+    .hero-section {
+        background: rgba(0, 71, 171, 0.95);
+        backdrop-filter: blur(10px);
+        color: white;
+        border: 1px solid rgba(255, 255, 255, 0.2);
+    }
+    
+    .hero-section h1 {
+        color: white;
+        text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+    }
+</style>
+
+<!-- Background Image -->
+<div class="page-background"></div>
+
+<!-- Hero Section -->
+<div class="hero-section content-section rounded-xl p-8 mb-8 text-center">
+    <h1 class="text-4xl font-bold mb-4">Sign Language Learning</h1>
+    <p class="text-xl">Learn American Sign Language with interactive lessons and practice</p>
+</div>
+
+<div class="max-w-4xl mx-auto">
+    <!-- Video Section -->
+    <div class="content-section bg-white rounded-lg shadow-md p-6 mb-8">
+        <h2 class="text-2xl font-semibold text-primary mb-4 text-center">ASL Alphabet Tutorial</h2>
+        <div class="relative w-full" style="padding-top: 56.25%;">
+            <iframe class="absolute inset-0 w-full h-full rounded-lg"
+                src="https://www.youtube.com/embed/tkMg8g8vVUo?si=XxQvKrZAz_9_3kqJ"
+                title="ASL Alphabet Song | Learn Sign Language for Each Letter"
+                frameborder="0" 
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
+                referrerpolicy="strict-origin-when-cross-origin" 
+                allowfullscreen>
+            </iframe>
+        </div>
+        <div class="mt-4 text-center">
+            <p class="text-gray-600 mb-4">
+                Watch this comprehensive tutorial to learn the American Sign Language alphabet
+            </p>
+            <div class="bg-blue-50 p-4 rounded-lg">
+                <p class="text-sm text-gray-700">
+                    <strong>Alternative:</strong> If the video doesn't load, you can also watch it directly on 
+                    <a href="https://www.youtube.com/watch?v=tkMg8g8vVUo" target="_blank" class="text-primary hover:underline font-semibold">YouTube</a>
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Alphabet Reference -->
+    <div class="content-section bg-white rounded-lg shadow-md p-6 mb-8">
+        <h2 class="text-2xl font-semibold text-primary mb-6 text-center">ASL Alphabet Reference</h2>
+        <div class="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-4">
+            {% for letter in "ABCDEFGHIJKLMNOPQRSTUVWXYZ" %}
+            <div class="bg-blue-50 p-4 rounded-lg text-center hover:bg-blue-100 transition-colors">
+                <div class="text-3xl font-bold text-primary">{{ letter }}</div>
+                <div class="mt-2 text-sm text-gray-600">Letter {{ letter }}</div>
+            </div>
+            {% endfor %}
+        </div>
+        <p class="text-center text-gray-600 mt-6">
+            Click on each letter while watching the video to practice the corresponding sign
+        </p>
+    </div>
+
+    <!-- Learning Tips -->
+    <div class="content-section bg-white rounded-lg shadow-md p-6 mb-8">
+        <h2 class="text-2xl font-semibold text-primary mb-6 text-center">Learning Tips</h2>
+        <div class="grid md:grid-cols-2 gap-6">
+            <div>
+                <h3 class="text-lg font-semibold text-primary mb-3">Practice Techniques</h3>
+                <ul class="space-y-2 text-gray-700">
+                    <li class="flex items-start">
+                        <span class="text-primary mr-2">•</span>
+                        Watch the video multiple times to understand each sign clearly
+                    </li>
+                    <li class="flex items-start">
+                        <span class="text-primary mr-2">•</span>
+                        Practice each letter slowly and deliberately
+                    </li>
+                    <li class="flex items-start">
+                        <span class="text-primary mr-2">•</span>
+                        Focus on hand positioning and movement
+                    </li>
+                </ul>
+            </div>
+            <div>
+                <h3 class="text-lg font-semibold text-primary mb-3">Study Methods</h3>
+                <ul class="space-y-2 text-gray-700">
+                    <li class="flex items-start">
+                        <span class="text-primary mr-2">•</span>
+                        Practice fingerspelling common words
+                    </li>
+                    <li class="flex items-start">
+                        <span class="text-primary mr-2">•</span>
+                        Use a mirror to check your form
+                    </li>
+                    <li class="flex items-start">
+                        <span class="text-primary mr-2">•</span>
+                        Practice with others to improve retention
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <!-- Additional Resources -->
+    <div class="content-section bg-gradient-to-br from-blue-50 to-indigo-50 rounded-lg shadow-md p-6">
+        <h2 class="text-2xl font-semibold text-primary mb-6 text-center">Norshel Sign Language Programs</h2>
+        <div class="text-center mb-6">
+            <p class="text-gray-700 text-lg">
+                We encourage regular practice and participation in our weekly sign language sessions at Norshel Inc.
+            </p>
+        </div>
+        <div class="grid md:grid-cols-2 gap-6">
+            <div class="bg-white p-4 rounded-lg">
+                <h3 class="text-lg font-semibold text-primary mb-3">🤝 Group Activities</h3>
+                <ul class="space-y-2 text-gray-700">
+                    <li class="flex items-start">
+                        <span class="text-primary mr-2">•</span>
+                        Join our weekly practice sessions
+                    </li>
+                    <li class="flex items-start">
+                        <span class="text-primary mr-2">•</span>
+                        Participate in monthly sign language social events
+                    </li>
+                </ul>
+            </div>
+            <div class="bg-white p-4 rounded-lg">
+                <h3 class="text-lg font-semibold text-primary mb-3">📚 Individual Support</h3>
+                <ul class="space-y-2 text-gray-700">
+                    <li class="flex items-start">
+                        <span class="text-primary mr-2">•</span>
+                        Request one-on-one tutoring with our staff
+                    </li>
+                    <li class="flex items-start">
+                        <span class="text-primary mr-2">•</span>
+                        Access our library of sign language learning materials
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    </div>
+</div>
+{% endblock %} 

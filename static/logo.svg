@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 150">
+  <!-- Hand sign -->
+  <path d="M60,75 C55,70 50,65 48,55 C46,45 48,35 55,30 C62,25 70,27 75,35 C78,40 80,45 78,50 L75,60" 
+        fill="none" stroke="#000" stroke-width="3" stroke-linecap="round"/>
+  
+  <!-- Letter N -->
+  <path d="M100,30 L100,100 M100,30 L150,100 M150,30 L150,100" 
+        fill="none" stroke="#0047AB" stroke-width="12" stroke-linecap="round"/>
+  
+  <!-- Text -->
+  <text x="170" y="75" font-family="Arial Black, Arial" font-weight="900" font-size="45" fill="#000">ORSHEL</text>
+  <text x="170" y="100" font-family="Arial" font-size="25" fill="#000">INC.</text>
+</svg> 

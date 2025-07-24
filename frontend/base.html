@@ -1,0 +1,614 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Norshel Inc.{% endblock %}</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#0047AB',
+                        secondary: '#6b7280',
+                        facebook: '#1877f2',
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        .bg-gradient-custom {
+            background: linear-gradient(135deg, #f0f4f8 0%, #ffffff 100%);
+        }
+        
+        .gradient-overlay {
+            background: 
+                radial-gradient(circle at 20% 20%, rgba(0, 71, 171, 0.05) 0%, transparent 50%),
+                radial-gradient(circle at 80% 80%, rgba(0, 71, 171, 0.05) 0%, transparent 50%),
+                radial-gradient(circle at 50% 50%, rgba(255, 255, 255, 0.9) 0%, transparent 100%);
+        }
+
+        .content-wrapper {
+            background: rgba(255, 255, 255, 0.97);
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+            border-radius: 0.5rem;
+        }
+
+        .nav-wrapper {
+            background: rgba(255, 255, 255, 0.98);
+            box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06);
+        }
+
+        .footer-wrapper {
+            background: rgba(255, 255, 255, 0.98);
+            border-top: 1px solid rgba(0, 0, 0, 0.1);
+        }
+
+        /* Subtle pattern */
+        .pattern-bg {
+            background-image: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%230047AB' fill-opacity='0.02'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+        }
+
+        .social-icon {
+            transition: transform 0.2s ease-in-out;
+        }
+
+        .social-icon:hover {
+            transform: translateY(-2px);
+        }
+
+        /* Navigation Styles */
+        .nav-link {
+            position: relative;
+            padding: 0.5rem 1rem;
+            color: #374151;
+            transition: all 0.3s ease;
+        }
+
+        .nav-link::after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 2px;
+            bottom: 0;
+            left: 50%;
+            background-color: #0047AB;
+            transition: all 0.3s ease;
+            transform: translateX(-50%);
+        }
+
+        .nav-link:hover {
+            color: #0047AB;
+        }
+
+        .nav-link:hover::after {
+            width: 100%;
+        }
+
+        .nav-link.active {
+            color: #0047AB;
+        }
+
+        .nav-link.active::after {
+            width: 100%;
+        }
+
+        /* Dropdown Styles */
+        .dropdown {
+            position: relative;
+            display: inline-block;
+        }
+
+        .dropdown-content {
+            display: none;
+            position: absolute;
+            top: 100%;
+            left: 0;
+            background-color: white;
+            min-width: 200px;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+            border-radius: 0.5rem;
+            padding: 0.5rem 0;
+            z-index: 50;
+            opacity: 0;
+            transform: translateY(-10px);
+            transition: opacity 0.3s ease, transform 0.3s ease;
+        }
+
+        .dropdown:hover .dropdown-content {
+            display: block;
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .dropdown-item {
+            display: block;
+            padding: 0.5rem 1rem;
+            color: #374151;
+            transition: all 0.3s ease;
+            text-decoration: none;
+        }
+
+        .dropdown-item:hover {
+            background-color: #f3f4f6;
+            color: #0047AB;
+            padding-left: 1.5rem;
+        }
+
+        /* Mobile Menu */
+        .mobile-menu-button {
+            display: none;
+        }
+
+        @media (max-width: 768px) {
+            .mobile-menu-button {
+                display: block;
+            }
+
+            .nav-links {
+                display: none;
+                width: 100%;
+                padding: 1rem 0;
+            }
+
+            .nav-links.active {
+                display: flex;
+                flex-direction: column;
+            }
+
+            .dropdown-content {
+                position: static;
+                box-shadow: none;
+                padding-left: 1rem;
+            }
+
+            .nav-link {
+                padding: 0.75rem 1rem;
+            }
+        }
+    </style>
+</head>
+<body class="bg-gradient-custom pattern-bg min-h-screen flex flex-col">
+    <nav class="nav-wrapper sticky top-0 z-50">
+        <div class="container mx-auto px-4 py-3">
+            <div class="flex flex-wrap justify-between items-center">
+                <a href="/" class="flex items-center space-x-2">
+                    <img src="/static/logo.svg" alt="Norshel Inc. Logo" class="h-16 w-auto transform hover:scale-105 transition-transform duration-300">
+                </a>
+
+                <!-- Mobile Menu Button -->
+                <button class="mobile-menu-button md:hidden p-2 rounded-lg hover:bg-gray-100" onclick="toggleMobileMenu()">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/>
+                    </svg>
+                </button>
+
+                <!-- Navigation Links -->
+                <div class="nav-links md:flex md:items-center md:space-x-6" id="navLinks">
+                    <a href="/" class="nav-link" id="homeLink">Home</a>
+                    
+                    <div class="dropdown">
+                        <a href="/programs" class="nav-link">Programs</a>
+                        <div class="dropdown-content">
+                            <a href="/programs#vocational" class="dropdown-item">Vocational Day Program</a>
+                            <a href="/programs#recreational" class="dropdown-item">Recreational Program</a>
+                            <a href="/programs#summer" class="dropdown-item">Summer Programs</a>
+                            <a href="/programs#work-experience" class="dropdown-item">Work Experience Program</a>
+                        </div>
+                    </div>
+
+                    <div class="dropdown">
+                        <a href="/individual-programs" class="nav-link">Individualized Programming</a>
+                        <div class="dropdown-content">
+                            <a href="/individual-programs#literacy" class="dropdown-item">Literacy Program</a>
+                            <a href="/individual-programs#music" class="dropdown-item">Music Therapy Program</a>
+                            <a href="/individual-programs#life-skills" class="dropdown-item">Life Skills Program</a>
+                        </div>
+                    </div>
+
+                    <a href="/video" class="nav-link">Sign Language</a>
+                    <a href="/contact" class="nav-link">Contact</a>
+                    <a href="/login" class="nav-link" id="loginLink">Login</a>
+                    <a href="/dashboard" class="nav-link hidden" id="dashboardLink">Dashboard</a>
+                    <button onclick="logout()" class="nav-link hidden" id="logoutButton">Logout</button>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <main class="flex-grow container mx-auto p-4">
+        <div class="content-wrapper p-6">
+            {% block content %}{% endblock %}
+        </div>
+    </main>
+
+    <!-- AI Chatbot Widget -->
+    <div id="chatWidget" class="fixed bottom-4 right-4 z-50">
+        <!-- Chat Button -->
+        <button id="chatToggle" class="bg-primary text-white p-4 rounded-full shadow-lg hover:bg-blue-700 transition-all duration-300 transform hover:scale-110">
+            <svg id="chatIcon" class="w-6 h-6 transition-transform duration-200" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-3.582 8-8 8a8.955 8.955 0 01-3.774-.829L3 21l1.829-6.226A8.955 8.955 0 013 12a8 8 0 018-8 8 8 0 018 8z"/>
+            </svg>
+            <svg id="closeIcon" class="w-6 h-6 hidden transition-transform duration-200" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
+            </svg>
+        </button>
+        
+        <!-- Chat Window -->
+        <div id="chatWindow" class="hidden absolute bottom-16 right-0 w-80 h-96 bg-white rounded-lg shadow-2xl border border-gray-200 overflow-hidden">
+            <!-- Chat Header -->
+            <div class="bg-primary text-white p-4">
+                <div class="flex items-center justify-between">
+                    <div class="flex items-center">
+                        <div class="w-8 h-8 bg-white/20 rounded-full flex items-center justify-center mr-2 text-lg">
+                            🤖
+                        </div>
+                        <div>
+                            <h3 class="font-semibold">Norshel Assistant</h3>
+                            <p class="text-xs text-white/80">Here to help!</p>
+                        </div>
+                    </div>
+                    <div class="flex items-center space-x-2">
+                        <div class="w-2 h-2 bg-green-400 rounded-full animate-pulse"></div>
+                        <span class="text-xs text-white/80">Online</span>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Chat Messages -->
+            <div id="chatMessages" class="flex-1 overflow-y-auto p-4 h-64 bg-gray-50">
+                <!-- Messages will be added here dynamically -->
+            </div>
+            
+            <!-- Typing Indicator -->
+            <div id="typingIndicator" class="hidden px-4 py-2 bg-gray-50">
+                <div class="flex items-center text-gray-500 text-sm">
+                    <div class="flex space-x-1 mr-2">
+                        <div class="w-2 h-2 bg-gray-400 rounded-full animate-bounce"></div>
+                        <div class="w-2 h-2 bg-gray-400 rounded-full animate-bounce" style="animation-delay: 0.1s"></div>
+                        <div class="w-2 h-2 bg-gray-400 rounded-full animate-bounce" style="animation-delay: 0.2s"></div>
+                    </div>
+                    Norshel Assistant is typing...
+                </div>
+            </div>
+            
+            <!-- Chat Input -->
+            <div class="border-t p-4 bg-white">
+                <div class="flex">
+                    <input id="chatInput" type="text" placeholder="Ask me about Norshel programs..." 
+                           class="flex-1 border rounded-l-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary"
+                           maxlength="500">
+                    <button id="chatSend" class="bg-primary text-white px-4 py-2 rounded-r-lg hover:bg-blue-700 transition-colors disabled:opacity-50 disabled:cursor-not-allowed">
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8"/>
+                        </svg>
+                    </button>
+                </div>
+                <div class="mt-2 text-xs text-gray-500 text-center">
+                    Ask about programs, hours, contact info, or parent portal
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <footer class="footer-wrapper mt-12">
+        <div class="container mx-auto px-4 py-6">
+            <div class="text-center space-y-4">
+                <div class="flex justify-center items-center space-x-4">
+                    <a href="https://www.facebook.com/profile.php?id=100063954911280"
+                       target="_blank"
+                       rel="noopener noreferrer"
+                       class="social-icon text-facebook hover:opacity-80 transition-opacity"
+                       aria-label="Visit our Facebook page">
+                        <i class="fab fa-facebook fa-2x"></i>
+                    </a>
+                </div>
+                <p class="text-gray-600">&copy; 2025 Norshel Inc. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Add active class to current page link
+        document.addEventListener('DOMContentLoaded', function() {
+            const currentPath = window.location.pathname;
+            const navLinks = document.querySelectorAll('.nav-link');
+            
+            navLinks.forEach(link => {
+                if (link.getAttribute('href') === currentPath) {
+                    link.classList.add('active');
+                }
+            });
+        });
+
+        // Mobile menu toggle
+        function toggleMobileMenu() {
+            const navLinks = document.getElementById('navLinks');
+            navLinks.classList.toggle('active');
+        }
+
+        // Close mobile menu when clicking outside
+        document.addEventListener('click', function(event) {
+            const navLinks = document.getElementById('navLinks');
+            const mobileButton = document.querySelector('.mobile-menu-button');
+            
+            if (!event.target.closest('.nav-wrapper')) {
+                navLinks.classList.remove('active');
+            }
+        });
+
+        // Login/Logout functionality
+        function checkLoginStatus() {
+            const token = localStorage.getItem('token');
+            const loginLink = document.getElementById('loginLink');
+            const dashboardLink = document.getElementById('dashboardLink');
+            const logoutButton = document.getElementById('logoutButton');
+
+            if (token) {
+                loginLink.classList.add('hidden');
+                dashboardLink.classList.remove('hidden');
+                logoutButton.classList.remove('hidden');
+            } else {
+                loginLink.classList.remove('hidden');
+                dashboardLink.classList.add('hidden');
+                logoutButton.classList.add('hidden');
+            }
+        }
+
+        function logout() {
+            localStorage.removeItem('token');
+            checkLoginStatus();
+            window.location.href = '/';
+        }
+
+        checkLoginStatus();
+
+        // Initialize chatbot after DOM is fully loaded
+        document.addEventListener('DOMContentLoaded', function() {
+            initializeChatbot();
+        });
+    </script>
+
+    <!-- Chatbot JavaScript -->
+    <script>
+        // Chatbot functionality
+        let chatSession = null;
+        let isOpen = false;
+        let isTyping = false;
+
+        function initializeChatbot() {
+            console.log('Initializing chatbot...');
+            
+            const chatToggle = document.getElementById('chatToggle');
+            const chatWindow = document.getElementById('chatWindow');
+            const chatInput = document.getElementById('chatInput');
+            const chatSend = document.getElementById('chatSend');
+            const chatMessages = document.getElementById('chatMessages');
+            const chatIcon = document.getElementById('chatIcon');
+            const closeIcon = document.getElementById('closeIcon');
+            const typingIndicator = document.getElementById('typingIndicator');
+            
+            console.log('Chat elements found:', {
+                chatToggle: !!chatToggle,
+                chatWindow: !!chatWindow,
+                chatInput: !!chatInput,
+                chatSend: !!chatSend
+            });
+
+            // Toggle chat window
+            if (chatToggle) {
+                console.log('Adding click event to chat toggle');
+                chatToggle.addEventListener('click', function(e) {
+                    console.log('Chat toggle clicked!');
+                    toggleChat();
+                });
+            } else {
+                console.error('Chat toggle element not found!');
+            }
+            
+            // Send message on button click
+            chatSend.addEventListener('click', sendMessage);
+            
+            // Send message on Enter key
+            chatInput.addEventListener('keypress', (e) => {
+                if (e.key === 'Enter' && !e.shiftKey) {
+                    e.preventDefault();
+                    sendMessage();
+                }
+            });
+
+            // Auto-resize input
+            chatInput.addEventListener('input', () => {
+                chatSend.disabled = chatInput.value.trim().length === 0;
+            });
+
+            // Initialize with disabled send button
+            chatSend.disabled = true;
+        }
+
+        async function toggleChat() {
+            const chatWindow = document.getElementById('chatWindow');
+            const chatIcon = document.getElementById('chatIcon');
+            const closeIcon = document.getElementById('closeIcon');
+            
+            isOpen = !isOpen;
+            
+            if (isOpen) {
+                chatWindow.classList.remove('hidden');
+                chatIcon.classList.add('hidden');
+                closeIcon.classList.remove('hidden');
+                
+                // Initialize chat session if not exists
+                if (!chatSession) {
+                    await initializeChatSession();
+                }
+                
+                // Focus input
+                document.getElementById('chatInput').focus();
+            } else {
+                chatWindow.classList.add('hidden');
+                chatIcon.classList.remove('hidden');
+                closeIcon.classList.add('hidden');
+            }
+        }
+
+        async function initializeChatSession() {
+            try {
+                const response = await fetch('/api/chat/start');
+                const data = await response.json();
+                
+                chatSession = {
+                    sessionId: data.session_id,
+                    messages: []
+                };
+                
+                // Add welcome message
+                addMessage(data.message, false);
+                
+            } catch (error) {
+                console.error('Failed to initialize chat:', error);
+                addMessage("Hello! I'm here to help you with information about Norshel programs and services. What would you like to know?", false);
+                chatSession = { sessionId: 'fallback', messages: [] };
+            }
+        }
+
+        async function sendMessage() {
+            const chatInput = document.getElementById('chatInput');
+            const message = chatInput.value.trim();
+            
+            if (!message || isTyping) return;
+            
+            // Add user message
+            addMessage(message, true);
+            chatInput.value = '';
+            document.getElementById('chatSend').disabled = true;
+            
+            // Show typing indicator
+            showTyping(true);
+            
+            try {
+                // Get current page context
+                const pageContext = getCurrentPageContext();
+                
+                // Send to backend
+                const response = await fetch('/api/chat', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': localStorage.getItem('token') ? `Bearer ${localStorage.getItem('token')}` : ''
+                    },
+                    body: JSON.stringify({
+                        message: message,
+                        session_id: chatSession?.sessionId || 'default',
+                        page: pageContext
+                    })
+                });
+                
+                const data = await response.json();
+                
+                // Hide typing indicator
+                showTyping(false);
+                
+                // Add bot response
+                addMessage(data.response, false);
+                
+                // Update session
+                if (data.session_id) {
+                    chatSession.sessionId = data.session_id;
+                }
+                
+            } catch (error) {
+                console.error('Chat error:', error);
+                showTyping(false);
+                addMessage("I'm having trouble right now. Please call us at (204) 654-6117 for immediate assistance.", false);
+            }
+        }
+
+        function addMessage(message, isUser) {
+            const chatMessages = document.getElementById('chatMessages');
+            const messageDiv = document.createElement('div');
+            
+            messageDiv.className = `mb-3 ${isUser ? 'flex justify-end' : 'flex justify-start'}`;
+            
+            const bubbleClass = isUser 
+                ? 'bg-primary text-white rounded-lg rounded-br-sm px-4 py-2 max-w-xs shadow-md'
+                : 'bg-white text-gray-800 rounded-lg rounded-bl-sm px-4 py-2 max-w-xs shadow-md border border-gray-200';
+            
+            // Convert markdown-style formatting to HTML
+            const formattedMessage = formatMessage(message);
+            
+            messageDiv.innerHTML = `
+                <div class="${bubbleClass}">
+                    <div class="text-sm leading-relaxed">${formattedMessage}</div>
+                    <div class="text-xs mt-1 ${isUser ? 'text-blue-100' : 'text-gray-500'}">
+                        ${new Date().toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'})}
+                    </div>
+                </div>
+            `;
+            
+            chatMessages.appendChild(messageDiv);
+            chatMessages.scrollTop = chatMessages.scrollHeight;
+            
+            // Store in session
+            if (chatSession) {
+                chatSession.messages.push({ message, isUser, timestamp: new Date() });
+            }
+        }
+
+        function formatMessage(message) {
+            // Convert basic markdown to HTML
+            return message
+                .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
+                .replace(/\*(.*?)\*/g, '<em>$1</em>')
+                .replace(/\n/g, '<br>')
+                .replace(/• /g, '• ');
+        }
+
+        function showTyping(show) {
+            const typingIndicator = document.getElementById('typingIndicator');
+            const chatMessages = document.getElementById('chatMessages');
+            
+            isTyping = show;
+            
+            if (show) {
+                typingIndicator.classList.remove('hidden');
+                chatMessages.scrollTop = chatMessages.scrollHeight;
+            } else {
+                typingIndicator.classList.add('hidden');
+            }
+        }
+
+        function getCurrentPageContext() {
+            const path = window.location.pathname;
+            if (path === '/') return 'home';
+            if (path === '/dashboard') return 'dashboard';
+            if (path === '/login') return 'login';
+            if (path === '/programs') return 'programs';
+            if (path === '/individual-programs') return 'individual-programs';
+            if (path === '/video') return 'video';
+            if (path === '/contact') return 'contact';
+            return 'unknown';
+        }
+
+        // Add some CSS for better mobile experience
+        const style = document.createElement('style');
+        style.textContent = `
+            @media (max-width: 640px) {
+                #chatWidget {
+                    bottom: 1rem;
+                    right: 1rem;
+                }
+                #chatWindow {
+                    width: calc(100vw - 2rem);
+                    height: 70vh;
+                    right: -0.5rem;
+                }
+            }
+        `;
+        document.head.appendChild(style);
+    </script>
+</body>
+</html> 

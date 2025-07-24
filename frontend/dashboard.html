@@ -1,0 +1,254 @@
+{% extends "base.html" %}
+
+{% block title %}Parent Dashboard - Norshel{% endblock %}
+
+{% block content %}
+<!-- Custom Background for Parent Dashboard -->
+<style>
+    .dashboard-background {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        z-index: -1;
+        background-image: url('/static/Parentpagebackground.jpg');
+        background-size: cover;
+        background-position: center;
+        background-repeat: no-repeat;
+        background-attachment: fixed;
+    }
+    
+    .dashboard-background::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: rgba(255, 255, 255, 0.85);
+        backdrop-filter: blur(1px);
+    }
+    
+    .dashboard-section {
+        background: rgba(255, 255, 255, 0.95);
+        backdrop-filter: blur(5px);
+        border-radius: 1rem;
+        box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+        border: 1px solid rgba(255, 255, 255, 0.2);
+        margin-bottom: 2rem;
+        padding: 1.5rem;
+    }
+    
+    .client-card {
+        background: rgba(255, 255, 255, 0.95);
+        backdrop-filter: blur(5px);
+        border-radius: 1rem;
+        box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+        border: 1px solid rgba(255, 255, 255, 0.2);
+        transition: all 0.3s ease;
+    }
+    
+    .client-card:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 12px 40px rgba(0, 0, 0, 0.15);
+    }
+    
+    .dashboard-header {
+        background: rgba(0, 71, 171, 0.95);
+        backdrop-filter: blur(10px);
+        color: white;
+        border: 1px solid rgba(255, 255, 255, 0.2);
+        border-radius: 1rem;
+        padding: 2rem;
+        margin-bottom: 2rem;
+        text-align: center;
+    }
+    
+    .dashboard-header h1 {
+        color: white;
+        text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+        margin-bottom: 0.5rem;
+    }
+    
+    .welcome-text {
+        color: rgba(255, 255, 255, 0.9);
+        font-size: 1.1rem;
+    }
+</style>
+
+<!-- Background Image -->
+<div class="dashboard-background"></div>
+
+<div class="min-h-screen py-6 relative z-10">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <!-- Header -->
+        <div class="dashboard-header">
+            <h1 class="text-4xl font-bold mb-2">Welcome to Your Parent Portal</h1>
+            <p class="welcome-text">Stay connected with your loved one's daily activities and progress</p>
+            <button id="logoutBtn" class="mt-4 px-6 py-2 bg-white text-primary rounded-lg hover:bg-gray-100 transition-colors font-semibold shadow-lg">
+                <span class="mr-2">🚪</span>
+                Logout
+            </button>
+        </div>
+
+        <!-- Loading State -->
+        <div id="loadingState" class="dashboard-section text-center py-12">
+            <div class="animate-spin rounded-full h-12 w-12 border-b-2 border-primary mx-auto"></div>
+            <p class="mt-4 text-gray-600">Loading your dashboard...</p>
+        </div>
+
+        <!-- Error State -->
+        <div id="errorState" class="hidden dashboard-section bg-red-50 border border-red-200 text-red-700" role="alert">
+            <p id="errorMessage" class="text-center"></p>
+        </div>
+
+        <!-- Dashboard Content -->
+        <div id="dashboardContent" class="hidden">
+            <!-- Client Cards -->
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-8" id="clientCards"></div>
+
+            <!-- Lunch Menu -->
+            <div class="dashboard-section">
+                <div class="text-center mb-6">
+                    <h2 class="text-2xl font-bold text-primary mb-2">🍽️ Weekly Lunch Menu</h2>
+                    <p class="text-gray-600">Nutritious meals planned for the week</p>
+                </div>
+                <div class="grid grid-cols-1 md:grid-cols-5 gap-4" id="lunchMenu"></div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+// Get current day name
+function getCurrentDay() {
+    return new Date().toLocaleDateString('en-US', { weekday: 'long' }).toLowerCase();
+}
+
+// Create a client card
+function createClientCard(client) {
+    const currentDay = getCurrentDay();
+    const todayActivities = client.activities[currentDay];
+    
+    const card = document.createElement('div');
+    card.className = 'client-card overflow-hidden';
+    card.innerHTML = `
+        <div class="p-6">
+            <div class="flex items-center mb-4">
+                <img class="h-20 w-20 rounded-full object-cover border-4 border-primary/20 shadow-lg" src="${client.image_url}" alt="${client.name}">
+                <div class="ml-4">
+                    <h3 class="text-2xl font-bold text-gray-900">${client.name}</h3>
+                    <p class="text-primary font-semibold">${client.team}</p>
+                </div>
+            </div>
+            <div class="bg-gradient-to-r from-blue-50 to-indigo-50 rounded-lg p-4">
+                <h4 class="font-bold text-primary mb-3 flex items-center">
+                    <span class="mr-2">📅</span>
+                    Today's Activities
+                </h4>
+                <div class="space-y-3">
+                    <div class="flex items-center justify-between bg-white rounded-lg p-3 shadow-sm">
+                        <span class="text-gray-600 font-medium">🌅 Morning:</span>
+                        <span class="font-bold text-primary">${todayActivities.morning}</span>
+                    </div>
+                    <div class="flex items-center justify-between bg-white rounded-lg p-3 shadow-sm">
+                        <span class="text-gray-600 font-medium">🌆 Afternoon:</span>
+                        <span class="font-bold text-primary">${todayActivities.afternoon}</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    `;
+    return card;
+}
+
+// Create a lunch menu day card
+function createLunchDayCard(day, menu, isToday) {
+    const card = document.createElement('div');
+    card.className = `p-4 rounded-lg transition-all duration-200 ${isToday ? 'bg-primary text-white shadow-lg transform scale-105' : 'bg-white shadow-md hover:shadow-lg hover:transform hover:scale-102'}`;
+    card.innerHTML = `
+        <div class="text-center">
+            <h3 class="font-bold mb-2 capitalize ${isToday ? 'text-white' : 'text-primary'}">${day}</h3>
+            <p class="text-sm ${isToday ? 'text-white/90' : 'text-gray-600'} mb-2">${menu}</p>
+            ${isToday ? '<div class="inline-flex items-center px-2 py-1 text-xs font-bold bg-white/20 rounded-full"><span class="mr-1">⭐</span>Today</div>' : ''}
+        </div>
+    `;
+    return card;
+}
+
+// Load dashboard data
+async function loadDashboard() {
+    const loadingState = document.getElementById('loadingState');
+    const errorState = document.getElementById('errorState');
+    const dashboardContent = document.getElementById('dashboardContent');
+    const clientCards = document.getElementById('clientCards');
+    const lunchMenu = document.getElementById('lunchMenu');
+
+    try {
+        // Show loading state
+        loadingState.classList.remove('hidden');
+        errorState.classList.add('hidden');
+        dashboardContent.classList.add('hidden');
+
+        // Get token
+        const token = localStorage.getItem('token');
+        if (!token) {
+            window.location.href = '/login';
+            return;
+        }
+
+        // Fetch dashboard data
+        const response = await fetch('/api/dashboard', {
+            headers: {
+                'Authorization': `Bearer ${token}`
+            }
+        });
+
+        if (!response.ok) {
+            if (response.status === 401) {
+                window.location.href = '/login';
+                return;
+            }
+            throw new Error('Failed to load dashboard data');
+        }
+
+        const data = await response.json();
+        const currentDay = getCurrentDay();
+
+        // Clear existing content
+        clientCards.innerHTML = '';
+        lunchMenu.innerHTML = '';
+
+        // Add client cards
+        data.clients.forEach(client => {
+            clientCards.appendChild(createClientCard(client));
+        });
+
+        // Add lunch menu
+        ['monday', 'tuesday', 'wednesday', 'thursday', 'friday'].forEach(day => {
+            const isToday = day === currentDay;
+            lunchMenu.appendChild(createLunchDayCard(day, data.lunch_menu[day], isToday));
+        });
+
+        // Show dashboard content
+        loadingState.classList.add('hidden');
+        dashboardContent.classList.remove('hidden');
+    } catch (error) {
+        console.error('Dashboard error:', error);
+        loadingState.classList.add('hidden');
+        errorState.classList.remove('hidden');
+        document.getElementById('errorMessage').textContent = error.message;
+    }
+}
+
+// Handle logout
+document.getElementById('logoutBtn').addEventListener('click', () => {
+    localStorage.removeItem('token');
+    window.location.href = '/login';
+});
+
+// Load dashboard on page load
+document.addEventListener('DOMContentLoaded', loadDashboard);
+</script>
+{% endblock %} 
