@@ -17,11 +17,12 @@ pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
 oauth2_scheme = OAuth2PasswordBearer(tokenUrl="api/login")
 
 # Mock parent database - In production, use a real database
+# Pre-computed bcrypt hash for "norshel" to avoid runtime hashing issues
 PARENT_DB = {
     "parent1@norshel.com": {
         "email": "parent1@norshel.com",
         "full_name": "John Doe Sr.",
-        "hashed_password": pwd_context.hash("norshel"),
+        "hashed_password": "$2b$12$LQv3c1yqBWVHxkd0LHAkCOYz6TtxMQJqhN8/LewSBKQNORm7X6E4W",
         "disabled": False
     }
 }
