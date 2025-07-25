@@ -33,10 +33,14 @@ chat_sessions = {}
 # HTTPS Redirect Middleware
 class HTTPSRedirectMiddleware(BaseHTTPMiddleware):
     async def dispatch(self, request: Request, call_next):
-        # Check if request is HTTP and redirect to HTTPS
+        # Skip HTTPS redirect for Render deployment (they handle HTTPS at load balancer level)
+        host = request.headers.get("host", "localhost")
+        if "onrender.com" in host:
+            return await call_next(request)
+            
+        # Check if request is HTTP and redirect to HTTPS (for local development)
         if request.url.scheme == "http":
             # Get the host and construct HTTPS URL
-            host = request.headers.get("host", "localhost")
             if ":" in host:
                 host = host.split(":")[0]
             
@@ -79,13 +83,13 @@ app.add_middleware(SecurityHeadersMiddleware)
 # Trusted host middleware (for production)
 app.add_middleware(
     TrustedHostMiddleware, 
-    allowed_hosts=["localhost", "127.0.0.1", "*.norshel.com"]
+    allowed_hosts=["localhost", "127.0.0.1", "*.norshel.com", "*.onrender.com", "norshelinc-portal.onrender.com"]
 )
 
-# CORS middleware (updated for HTTPS)
+# CORS middleware (updated for HTTPS and Render)
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["https://localhost:8443", "https://127.0.0.1:8443"],
+    allow_origins=["https://localhost:8443", "https://127.0.0.1:8443", "https://norshelinc-portal.onrender.com", "https://*.onrender.com"],
     allow_credentials=True,
     allow_methods=["GET", "POST", "PUT", "DELETE"],
     allow_headers=["*"],
