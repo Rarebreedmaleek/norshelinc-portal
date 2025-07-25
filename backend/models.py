@@ -58,7 +58,9 @@ MOCK_CLIENTS = [
 
 # Parent-Client relationships
 PARENT_CLIENTS = {
-    "parent1@norshel.com": ["1"]  # Parent has access to John Doe
+    "parent1@norshel.com": ["1"],     # Parent has access to John Doe
+    "admin@norshel.com": ["1"],       # Admin has access to John Doe
+    "test@norshel.com": ["1"]         # Test user has access to John Doe
 }
 
 # Authentication models

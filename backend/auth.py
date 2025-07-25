@@ -17,12 +17,24 @@ pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
 oauth2_scheme = OAuth2PasswordBearer(tokenUrl="api/login")
 
 # Mock parent database - In production, use a real database
-# Pre-computed bcrypt hash for "norshel" to avoid runtime hashing issues
+# Test accounts with simple passwords for demo purposes
 PARENT_DB = {
     "parent1@norshel.com": {
         "email": "parent1@norshel.com",
         "full_name": "John Doe Sr.",
-        "hashed_password": "$2b$12$LQv3c1yqBWVHxkd0LHAkCOYz6TtxMQJqhN8/LewSBKQNORm7X6E4W",
+        "hashed_password": "$2b$12$tDdGbDbuZcKXKHZMU2WUP.lghKRHy1CCsNpCTnk6.nEmcjQA4dS3.",  # password: "password"
+        "disabled": False
+    },
+    "admin@norshel.com": {
+        "email": "admin@norshel.com",
+        "full_name": "Administrator",
+        "hashed_password": "$2b$12$tdEar8QuY12th3Po66fAcOa3hOIEmWI0pg0DxOyfreiCr1Qza9gXG",  # password: "admin"
+        "disabled": False
+    },
+    "test@norshel.com": {
+        "email": "test@norshel.com",
+        "full_name": "Test User",
+        "hashed_password": "$2b$12$mXtHDEpkyKnZBC6SKi3TQeKCscWtStr4wVuz4JIAm1JCgzJFNu9hm",  # password: "norshel123"
         "disabled": False
     }
 }
