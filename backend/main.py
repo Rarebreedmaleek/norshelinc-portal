@@ -1,4 +1,4 @@
-from fastapi import FastAPI, Depends, HTTPException, status, Request, Response
+from fastapi import FastAPI, Depends, HTTPException, status, Request, Response, UploadFile, File
 from fastapi.security import OAuth2PasswordRequestForm
 from fastapi.staticfiles import StaticFiles
 from fastapi.templating import Jinja2Templates
@@ -8,6 +8,9 @@ from starlette.middleware.base import BaseHTTPMiddleware
 from fastapi.responses import RedirectResponse
 from datetime import timedelta, datetime
 from pathlib import Path
+import os
+import uuid
+import shutil
 
 from .auth import (
     authenticate_parent,
@@ -244,6 +247,70 @@ async def start_chat():
         "session_id": session_id,
         "timestamp": datetime.now().isoformat()
     }
+
+@app.post("/api/upload-photo/{client_id}")
+async def upload_client_photo(
+    client_id: str,
+    file: UploadFile = File(...),
+    current_parent: dict = Depends(get_current_parent)
+):
+    """Upload a photo for a specific client"""
+    try:
+        # Validate file type
+        if not file.content_type.startswith('image/'):
+            raise HTTPException(
+                status_code=400, 
+                detail="Only image files are allowed"
+            )
+        
+        # Check file size (max 5MB)
+        if file.size and file.size > 5 * 1024 * 1024:
+            raise HTTPException(
+                status_code=400, 
+                detail="File size must be less than 5MB"
+            )
+        
+        # Verify parent has access to this client
+        parent_email = current_parent.get("email")
+        if parent_email not in PARENT_CLIENTS or client_id not in PARENT_CLIENTS[parent_email]:
+            raise HTTPException(
+                status_code=403, 
+                detail="Access denied to this client"
+            )
+        
+        # Create uploads directory if it doesn't exist
+        uploads_dir = BASE_DIR / "static" / "uploads"
+        uploads_dir.mkdir(exist_ok=True)
+        
+        # Generate unique filename
+        file_extension = file.filename.split('.')[-1] if '.' in file.filename else 'jpg'
+        unique_filename = f"client_{client_id}_{uuid.uuid4().hex[:8]}.{file_extension}"
+        file_path = uploads_dir / unique_filename
+        
+        # Save the file
+        with open(file_path, "wb") as buffer:
+            shutil.copyfileobj(file.file, buffer)
+        
+        # Update the client's image URL in mock data
+        # In a real application, this would be stored in a database
+        for client in MOCK_CLIENTS:
+            if client.id == client_id:
+                client.image_url = f"/static/uploads/{unique_filename}"
+                break
+        
+        return {
+            "success": True,
+            "image_url": f"/static/uploads/{unique_filename}",
+            "message": "Photo uploaded successfully"
+        }
+        
+    except HTTPException:
+        raise
+    except Exception as e:
+        raise HTTPException(
+            status_code=500,
+            detail=f"Failed to upload photo: {str(e)}"
+        )
 
 if __name__ == "__main__":
     import uvicorn

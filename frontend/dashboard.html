@@ -75,6 +75,29 @@
         color: rgba(255, 255, 255, 0.9);
         font-size: 1.1rem;
     }
+    
+    /* Photo upload styles */
+    .upload-button {
+        transition: all 0.3s ease;
+    }
+    
+    .upload-button:hover {
+        transform: scale(1.1);
+    }
+    
+    .upload-button:active {
+        transform: scale(0.95);
+    }
+    
+    /* Loading animation for upload */
+    .upload-loading {
+        animation: spin 1s linear infinite;
+    }
+    
+    @keyframes spin {
+        from { transform: rotate(0deg); }
+        to { transform: rotate(360deg); }
+    }
 </style>
 
 <!-- Background Image -->
@@ -136,10 +159,22 @@ function createClientCard(client) {
     card.innerHTML = `
         <div class="p-6">
             <div class="flex items-center mb-4">
-                <img class="h-20 w-20 rounded-full object-cover border-4 border-primary/20 shadow-lg" src="${client.image_url}" alt="${client.name}">
+                <div class="relative">
+                    <img id="client-image-${client.id}" class="h-20 w-20 rounded-full object-cover border-4 border-primary/20 shadow-lg" src="${client.image_url}" alt="${client.name}">
+                    <div class="absolute -bottom-1 -right-1">
+                        <label for="photo-upload-${client.id}" class="upload-button cursor-pointer bg-primary text-white p-2 rounded-full shadow-lg hover:bg-blue-700 transition-colors">
+                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 9a2 2 0 012-2h.93a2 2 0 001.664-.89l.812-1.22A2 2 0 0110.07 4h3.86a2 2 0 011.664.89l.812 1.22A2 2 0 0018.07 7H19a2 2 0 012 2v9a2 2 0 01-2 2H5a2 2 0 01-2-2V9z"/>
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 13a3 3 0 11-6 0 3 3 0 016 0z"/>
+                            </svg>
+                        </label>
+                        <input id="photo-upload-${client.id}" type="file" accept="image/*" class="hidden" onchange="uploadPhoto('${client.id}', this)">
+                    </div>
+                </div>
                 <div class="ml-4">
                     <h3 class="text-2xl font-bold text-gray-900">${client.name}</h3>
                     <p class="text-primary font-semibold">${client.team}</p>
+                    <div id="upload-status-${client.id}" class="text-sm text-gray-500 mt-1"></div>
                 </div>
             </div>
             <div class="bg-gradient-to-r from-blue-50 to-indigo-50 rounded-lg p-4">
@@ -247,6 +282,101 @@ document.getElementById('logoutBtn').addEventListener('click', () => {
     localStorage.removeItem('token');
     window.location.href = '/login';
 });
+
+// Upload photo function
+async function uploadPhoto(clientId, inputElement) {
+    const file = inputElement.files[0];
+    if (!file) return;
+    
+    // Validate file type
+    if (!file.type.startsWith('image/')) {
+        showUploadStatus(clientId, 'Please select an image file', 'error');
+        return;
+    }
+    
+    // Validate file size (5MB max)
+    if (file.size > 5 * 1024 * 1024) {
+        showUploadStatus(clientId, 'File size must be less than 5MB', 'error');
+        return;
+    }
+    
+    // Show uploading status
+    showUploadStatus(clientId, 'Uploading...', 'uploading');
+    
+    try {
+        const token = localStorage.getItem('token');
+        if (!token) {
+            window.location.href = '/login';
+            return;
+        }
+        
+        // Create FormData
+        const formData = new FormData();
+        formData.append('file', file);
+        
+        // Upload the file
+        const response = await fetch(`/api/upload-photo/${clientId}`, {
+            method: 'POST',
+            headers: {
+                'Authorization': `Bearer ${token}`
+            },
+            body: formData
+        });
+        
+        if (!response.ok) {
+            const errorData = await response.json();
+            throw new Error(errorData.detail || 'Upload failed');
+        }
+        
+        const data = await response.json();
+        
+        // Update the image
+        const imageElement = document.getElementById(`client-image-${clientId}`);
+        if (imageElement) {
+            imageElement.src = data.image_url + '?t=' + new Date().getTime(); // Add timestamp to prevent caching
+        }
+        
+        showUploadStatus(clientId, 'Photo uploaded successfully!', 'success');
+        
+        // Clear the input
+        inputElement.value = '';
+        
+    } catch (error) {
+        console.error('Upload error:', error);
+        showUploadStatus(clientId, `Upload failed: ${error.message}`, 'error');
+    }
+}
+
+// Show upload status
+function showUploadStatus(clientId, message, type) {
+    const statusElement = document.getElementById(`upload-status-${clientId}`);
+    if (!statusElement) return;
+    
+    statusElement.textContent = message;
+    statusElement.className = 'text-sm mt-1';
+    
+    switch (type) {
+        case 'success':
+            statusElement.classList.add('text-green-600');
+            break;
+        case 'error':
+            statusElement.classList.add('text-red-600');
+            break;
+        case 'uploading':
+            statusElement.classList.add('text-blue-600');
+            break;
+        default:
+            statusElement.classList.add('text-gray-500');
+    }
+    
+    // Clear success/error messages after 3 seconds
+    if (type === 'success' || type === 'error') {
+        setTimeout(() => {
+            statusElement.textContent = '';
+            statusElement.className = 'text-sm text-gray-500 mt-1';
+        }, 3000);
+    }
+}
 
 // Load dashboard on page load
 document.addEventListener('DOMContentLoaded', loadDashboard);
