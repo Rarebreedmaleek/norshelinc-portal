@@ -66,7 +66,7 @@
 </div>
 
 <!-- Vocational Day Program -->
-<div class="content-section bg-white rounded-xl shadow-lg p-8 mb-12 transform transition-all duration-300 hover:shadow-xl">
+<div id="vocational" class="content-section bg-white rounded-xl shadow-lg p-8 mb-12 transform transition-all duration-300 hover:shadow-xl">
     <div class="flex items-center mb-6">
         <div class="bg-primary/10 p-3 rounded-full mr-4">
             <svg class="w-8 h-8 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -141,7 +141,7 @@
 </div>
 
 <!-- Recreational Program -->
-<div class="content-section bg-white rounded-xl shadow-lg p-8 mb-12 transform transition-all duration-300 hover:shadow-xl">
+<div id="recreational" class="content-section bg-white rounded-xl shadow-lg p-8 mb-12 transform transition-all duration-300 hover:shadow-xl">
     <div class="flex items-center mb-6">
         <div class="bg-primary/10 p-3 rounded-full mr-4">
             <svg class="w-8 h-8 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -244,7 +244,7 @@
 </div>
 
 <!-- Summer Programs -->
-<div class="bg-white rounded-xl shadow-lg p-8 mb-12 transform transition-all duration-300 hover:shadow-xl">
+<div id="summer" class="bg-white rounded-xl shadow-lg p-8 mb-12 transform transition-all duration-300 hover:shadow-xl">
     <div class="flex items-center mb-6">
         <div class="bg-primary/10 p-3 rounded-full mr-4">
             <svg class="w-8 h-8 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -287,7 +287,7 @@
 </div>
 
 <!-- Work Experience Program -->
-<div class="content-section bg-white rounded-xl shadow-lg p-8">
+<div id="work-experience" class="content-section bg-white rounded-xl shadow-lg p-8">
     <div class="flex items-center mb-6">
         <div class="bg-primary/10 p-3 rounded-full mr-4">
             <svg class="w-8 h-8 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -329,6 +329,134 @@
     </div>
 </div>
 
+<!-- Navigation Indicator -->
+<div class="nav-indicator" id="navIndicator">
+    <div class="nav-dot" data-section="vocational" title="Vocational Day Program"></div>
+    <div class="nav-dot" data-section="recreational" title="Recreational Program"></div>
+    <div class="nav-dot" data-section="summer" title="Summer Programs"></div>
+    <div class="nav-dot" data-section="work-experience" title="Work Experience Program"></div>
+</div>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    // Add program-section class to all program sections
+    const programSections = document.querySelectorAll('#vocational, #recreational, #summer, #work-experience');
+    programSections.forEach(section => {
+        section.classList.add('program-section');
+    });
+    
+    // Navigation indicator functionality
+    const navIndicator = document.getElementById('navIndicator');
+    const navDots = document.querySelectorAll('.nav-dot');
+    
+    // Show navigation indicator after scrolling down
+    window.addEventListener('scroll', function() {
+        if (window.scrollY > 200) {
+            navIndicator.classList.add('show');
+        } else {
+            navIndicator.classList.remove('show');
+        }
+        
+        // Update active dot based on scroll position
+        updateActiveDot();
+    });
+    
+    // Click navigation dots to scroll to sections
+    navDots.forEach(dot => {
+        dot.addEventListener('click', function() {
+            const sectionId = this.getAttribute('data-section');
+            const section = document.getElementById(sectionId);
+            if (section) {
+                section.scrollIntoView({ behavior: 'smooth' });
+            }
+        });
+    });
+    
+    // Update active navigation dot
+    function updateActiveDot() {
+        const scrollPosition = window.scrollY + window.innerHeight / 2;
+        
+        programSections.forEach((section, index) => {
+            const sectionTop = section.offsetTop;
+            const sectionBottom = sectionTop + section.offsetHeight;
+            
+            if (scrollPosition >= sectionTop && scrollPosition < sectionBottom) {
+                navDots.forEach(dot => dot.classList.remove('active'));
+                navDots[index].classList.add('active');
+            }
+        });
+    }
+    
+    // Handle anchor links from navigation dropdown
+    function handleAnchorLinks() {
+        const hash = window.location.hash;
+        if (hash) {
+            const targetSection = document.querySelector(hash);
+            if (targetSection) {
+                // Add a small delay to ensure smooth scrolling works
+                setTimeout(() => {
+                    targetSection.scrollIntoView({ behavior: 'smooth' });
+                    
+                    // Add highlight effect
+                    targetSection.classList.add('highlight');
+                    setTimeout(() => {
+                        targetSection.classList.remove('highlight');
+                    }, 2000);
+                }, 100);
+            }
+        }
+    }
+    
+    // Handle anchor links on page load
+    handleAnchorLinks();
+    
+    // Handle anchor links when hash changes (for navigation dropdown clicks)
+    window.addEventListener('hashchange', handleAnchorLinks);
+    
+    // Enhanced scroll behavior for program sections
+    const observerOptions = {
+        threshold: 0.3,
+        rootMargin: '-50px 0px -50px 0px'
+    };
+    
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                entry.target.classList.add('animate-fade-in');
+            }
+        });
+    }, observerOptions);
+    
+    programSections.forEach(section => {
+        observer.observe(section);
+    });
+    
+    // Add keyboard navigation support
+    document.addEventListener('keydown', function(e) {
+        if (e.key === 'ArrowUp' || e.key === 'ArrowDown') {
+            e.preventDefault();
+            const currentActive = document.querySelector('.nav-dot.active');
+            if (currentActive) {
+                const currentIndex = Array.from(navDots).indexOf(currentActive);
+                let newIndex;
+                
+                if (e.key === 'ArrowUp') {
+                    newIndex = Math.max(0, currentIndex - 1);
+                } else {
+                    newIndex = Math.min(navDots.length - 1, currentIndex + 1);
+                }
+                
+                const targetSection = navDots[newIndex].getAttribute('data-section');
+                const section = document.getElementById(targetSection);
+                if (section) {
+                    section.scrollIntoView({ behavior: 'smooth' });
+                }
+            }
+        }
+    });
+});
+</script>
+
 <style>
     .animate-fade-in {
         animation: fadeIn 0.8s ease-out;
@@ -340,6 +468,69 @@
     @keyframes fadeIn {
         from { opacity: 0; transform: translateY(10px); }
         to { opacity: 1; transform: translateY(0); }
+    }
+    
+    /* Smooth scrolling for the entire page */
+    html {
+        scroll-behavior: smooth;
+    }
+    
+    /* Highlight effect for program sections when scrolled to */
+    .program-section {
+        transition: all 0.3s ease;
+    }
+    
+    .program-section.highlight {
+        background: rgba(0, 71, 171, 0.05) !important;
+        box-shadow: 0 8px 32px rgba(0, 71, 171, 0.15) !important;
+        transform: translateY(-2px);
+    }
+    
+    /* Navigation indicator */
+    .nav-indicator {
+        position: fixed;
+        top: 50%;
+        right: 20px;
+        transform: translateY(-50%);
+        z-index: 40;
+        display: none;
+    }
+    
+    .nav-indicator.show {
+        display: block;
+    }
+    
+    .nav-dot {
+        width: 12px;
+        height: 12px;
+        border-radius: 50%;
+        background: rgba(0, 71, 171, 0.3);
+        margin: 8px 0;
+        cursor: pointer;
+        transition: all 0.3s ease;
+    }
+    
+    .nav-dot.active {
+        background: #0047AB;
+        transform: scale(1.2);
+    }
+    
+    .nav-dot:hover {
+        background: rgba(0, 71, 171, 0.6);
+        transform: scale(1.1);
+    }
+    
+    /* Mobile responsive */
+    @media (max-width: 768px) {
+        .nav-indicator {
+            right: 10px;
+        }
+        
+        .nav-dot {
+            width: 10px;
+            height: 10px;
+            margin: 6px 0;
+        }
     }
 </style>
 {% endblock %} 

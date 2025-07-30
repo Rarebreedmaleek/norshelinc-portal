@@ -20,6 +20,11 @@
         }
     </script>
     <style>
+        /* Global smooth scrolling */
+        html {
+            scroll-behavior: smooth;
+        }
+        
         .bg-gradient-custom {
             background: linear-gradient(135deg, #f0f4f8 0%, #ffffff 100%);
         }
@@ -321,6 +326,19 @@
                 if (link.getAttribute('href') === currentPath) {
                     link.classList.add('active');
                 }
+            });
+            
+            // Enhanced navigation dropdown functionality
+            const dropdownItems = document.querySelectorAll('.dropdown-item');
+            dropdownItems.forEach(item => {
+                item.addEventListener('click', function(e) {
+                    const href = this.getAttribute('href');
+                    if (href && href.includes('#')) {
+                        // For anchor links, let the browser handle the navigation
+                        // The programs page will handle the smooth scrolling
+                        return;
+                    }
+                });
             });
         });
 
