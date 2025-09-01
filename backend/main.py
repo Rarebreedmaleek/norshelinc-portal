@@ -62,7 +62,7 @@ class SecurityHeadersMiddleware(BaseHTTPMiddleware):
         
         # Add security headers
         response.headers["X-Content-Type-Options"] = "nosniff"
-        response.headers["X-Frame-Options"] = "DENY"
+        response.headers["X-Frame-Options"] = "SAMEORIGIN"
         response.headers["X-XSS-Protection"] = "1; mode=block"
         response.headers["Strict-Transport-Security"] = "max-age=31536000; includeSubDomains"
         response.headers["Referrer-Policy"] = "strict-origin-when-cross-origin"
@@ -70,9 +70,11 @@ class SecurityHeadersMiddleware(BaseHTTPMiddleware):
             "default-src 'self'; "
             "script-src 'self' 'unsafe-inline' https://cdn.tailwindcss.com https://cdnjs.cloudflare.com; "
             "style-src 'self' 'unsafe-inline' https://cdn.tailwindcss.com https://cdnjs.cloudflare.com; "
-            "img-src 'self' data:; "
+            "img-src 'self' data: https://i.ytimg.com https://*.youtube.com; "
             "font-src 'self' https://cdnjs.cloudflare.com; "
-            "connect-src 'self';"
+            "connect-src 'self'; "
+            "frame-src 'self' https://www.youtube.com https://youtube.com; "
+            "media-src 'self' https://www.youtube.com https://youtube.com;"
         )
         
         return response
