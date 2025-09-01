@@ -86,13 +86,13 @@ app.add_middleware(SecurityHeadersMiddleware)
 # Trusted host middleware (for production)
 app.add_middleware(
     TrustedHostMiddleware, 
-    allowed_hosts=["localhost", "127.0.0.1", "*.norshel.com", "*.onrender.com", "norshelinc-portal.onrender.com"]
+    allowed_hosts=["localhost", "127.0.0.1", "*.norshelinc.ca", "norshelinc.ca", "www.norshelinc.ca", "*.onrender.com", "norshelinc-portal.onrender.com"]
 )
 
 # CORS middleware (updated for HTTPS and Render)
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["https://localhost:8443", "https://127.0.0.1:8443", "https://norshelinc-portal.onrender.com", "https://*.onrender.com"],
+    allow_origins=["https://localhost:8443", "https://127.0.0.1:8443", "https://norshelinc-portal.onrender.com", "https://*.onrender.com", "https://norshelinc.ca", "https://www.norshelinc.ca"],
     allow_credentials=True,
     allow_methods=["GET", "POST", "PUT", "DELETE"],
     allow_headers=["*"],
