@@ -70,10 +70,10 @@ class SecurityHeadersMiddleware(BaseHTTPMiddleware):
             "default-src 'self'; "
             "script-src 'self' 'unsafe-inline' https://cdn.tailwindcss.com https://cdnjs.cloudflare.com; "
             "style-src 'self' 'unsafe-inline' https://cdn.tailwindcss.com https://cdnjs.cloudflare.com; "
-            "img-src 'self' data: https://i.ytimg.com https://*.youtube.com; "
+            "img-src 'self' data: https://i.ytimg.com https://*.youtube.com https://maps.googleapis.com https://maps.gstatic.com https://*.google.com; "
             "font-src 'self' https://cdnjs.cloudflare.com; "
             "connect-src 'self'; "
-            "frame-src 'self' https://www.youtube.com https://youtube.com; "
+            "frame-src 'self' https://www.youtube.com https://youtube.com https://www.google.com https://maps.google.com; "
             "media-src 'self' https://www.youtube.com https://youtube.com;"
         )
         
