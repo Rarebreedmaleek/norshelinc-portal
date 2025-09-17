@@ -333,8 +333,8 @@ async def submit_contact_form(
         # Email configuration
         smtp_server = "smtp.gmail.com"
         smtp_port = 587
-        sender_email = "norshelinc.contact@gmail.com"  # You'll need to set this up
-        sender_password = "your-app-password"  # You'll need to set this up
+        sender_email = os.getenv("CONTACT_EMAIL", "norshelinc.contact@gmail.com")
+        sender_password = os.getenv("CONTACT_EMAIL_PASSWORD", "your-app-password")
         recipient_emails = [
             "m.abdulmlaiksani008@gmail.com",
             "m.abdulmlaiksani007@gmail.com"
@@ -384,18 +384,50 @@ async def submit_contact_form(
             )
             msg.attach(image_attachment)
         
-        # Send email
-        server = smtplib.SMTP(smtp_server, smtp_port)
-        server.starttls()
-        server.login(sender_email, sender_password)
-        text = msg.as_string()
-        server.sendmail(sender_email, recipient_emails, text)
-        server.quit()
-        
-        return {
-            "success": True,
-            "message": "Your message has been sent successfully!"
-        }
+        # Check if email credentials are configured
+        if sender_password == "your-app-password":
+            # Email not configured - save to file instead
+            contact_dir = BASE_DIR / "contact_submissions"
+            contact_dir.mkdir(exist_ok=True)
+            
+            # Save submission to file
+            submission_id = str(uuid.uuid4())
+            submission_file = contact_dir / f"submission_{submission_id}.txt"
+            
+            with open(submission_file, 'w') as f:
+                f.write(f"Contact Form Submission - {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}\n")
+                f.write(f"Name: {name}\n")
+                f.write(f"Email: {email}\n")
+                f.write(f"Subject: {subject}\n")
+                f.write(f"Message: {message}\n")
+                f.write(f"Image attached: {'Yes' if image and image.filename else 'No'}\n")
+                if image and image.filename:
+                    f.write(f"Image filename: {image.filename}\n")
+            
+            # Save image if provided
+            if image and image.filename:
+                image_data = await image.read()
+                image_file = contact_dir / f"image_{submission_id}_{image.filename}"
+                with open(image_file, 'wb') as f:
+                    f.write(image_data)
+            
+            return {
+                "success": True,
+                "message": "Your message has been received! We'll get back to you soon."
+            }
+        else:
+            # Send email
+            server = smtplib.SMTP(smtp_server, smtp_port)
+            server.starttls()
+            server.login(sender_email, sender_password)
+            text = msg.as_string()
+            server.sendmail(sender_email, recipient_emails, text)
+            server.quit()
+            
+            return {
+                "success": True,
+                "message": "Your message has been sent successfully!"
+            }
         
     except Exception as e:
         raise HTTPException(
