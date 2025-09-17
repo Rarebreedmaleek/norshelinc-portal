@@ -1,4 +1,4 @@
-from fastapi import FastAPI, Depends, HTTPException, status, Request, Response, UploadFile, File
+from fastapi import FastAPI, Depends, HTTPException, status, Request, Response, UploadFile, File, Form
 from fastapi.security import OAuth2PasswordRequestForm
 from fastapi.staticfiles import StaticFiles
 from fastapi.templating import Jinja2Templates
@@ -11,6 +11,12 @@ from pathlib import Path
 import os
 import uuid
 import shutil
+import smtplib
+from email.mime.multipart import MIMEMultipart
+from email.mime.text import MIMEText
+from email.mime.image import MIMEImage
+from email.mime.base import MIMEBase
+from email import encoders
 
 from .auth import (
     authenticate_parent,
@@ -312,6 +318,89 @@ async def upload_client_photo(
         raise HTTPException(
             status_code=500,
             detail=f"Failed to upload photo: {str(e)}"
+        )
+
+@app.post("/api/contact")
+async def submit_contact_form(
+    name: str = Form(...),
+    email: str = Form(...),
+    subject: str = Form(...),
+    message: str = Form(...),
+    image: UploadFile = File(None)
+):
+    """Handle contact form submissions with optional image upload"""
+    try:
+        # Email configuration
+        smtp_server = "smtp.gmail.com"
+        smtp_port = 587
+        sender_email = "norshelinc.contact@gmail.com"  # You'll need to set this up
+        sender_password = "your-app-password"  # You'll need to set this up
+        recipient_emails = [
+            "m.abdulmlaiksani008@gmail.com",
+            "m.abdulmlaiksani007@gmail.com"
+        ]
+        
+        # Create message
+        msg = MIMEMultipart()
+        msg['From'] = sender_email
+        msg['To'] = ", ".join(recipient_emails)
+        msg['Subject'] = f"Norshel Contact Form: {subject}"
+        
+        # Email body
+        body = f"""
+        New contact form submission from Norshel Inc website:
+        
+        Name: {name}
+        Email: {email}
+        Subject: {subject}
+        
+        Message:
+        {message}
+        
+        Submitted on: {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}
+        """
+        
+        msg.attach(MIMEText(body, 'plain'))
+        
+        # Attach image if provided
+        if image and image.filename:
+            # Validate file type
+            if not image.content_type.startswith('image/'):
+                raise HTTPException(
+                    status_code=400,
+                    detail="Only image files are allowed"
+                )
+            
+            # Read image data
+            image_data = await image.read()
+            
+            # Attach image
+            image_attachment = MIMEBase('application', 'octet-stream')
+            image_attachment.set_payload(image_data)
+            encoders.encode_base64(image_attachment)
+            image_attachment.add_header(
+                'Content-Disposition',
+                f'attachment; filename= {image.filename}'
+            )
+            msg.attach(image_attachment)
+        
+        # Send email
+        server = smtplib.SMTP(smtp_server, smtp_port)
+        server.starttls()
+        server.login(sender_email, sender_password)
+        text = msg.as_string()
+        server.sendmail(sender_email, recipient_emails, text)
+        server.quit()
+        
+        return {
+            "success": True,
+            "message": "Your message has been sent successfully!"
+        }
+        
+    except Exception as e:
+        raise HTTPException(
+            status_code=500,
+            detail=f"Failed to send message: {str(e)}"
         )
 
 if __name__ == "__main__":
